@@ -1,4 +1,9 @@
-import { Home, Posts, Albums, Todos } from './pages';
+import { lazy } from 'react';
+
+const Home = lazy(() => import('./pages/home'));
+const Posts = lazy(() => import('./pages/posts'));
+const Albums = lazy(() => import('./pages/albums'));
+const Todos = lazy(() => import('./pages/todos'));
 
 const routes = [
   {

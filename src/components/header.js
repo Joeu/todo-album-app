@@ -6,14 +6,21 @@ const StyledHeader = styled.header`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  margin: 2rem, auto;
+  align-items: center;
+  margin: 1.5rem, auto;
+  height: 7rem;
+`;
+
+const StyledLink = styled(Link)`
+  font-size: 2rem;
+  color: 'red';
 `;
 
 const Header = ({ routes }) => {
   return (
     <StyledHeader>
       {routes.map((route) => (
-        <Link to={route.path}>{route.name}</Link>
+        <StyledLink to={route.path}>{route.name}</StyledLink>
       ))}
     </StyledHeader>
   );
