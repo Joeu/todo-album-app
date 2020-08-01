@@ -38,7 +38,11 @@ const Header = ({ routes }) => {
     <StyledHeader>
       {/* TODO: Logo Logo */}
       {routes.map((route) => (
-        <StyledLink activeStyle={activeStyle} to={route.path}>
+        <StyledLink
+          activeStyle={activeStyle}
+          to={route.path}
+          exact={route.exact}
+        >
           {route.name}
         </StyledLink>
       ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import { useFetch } from '../customHooks/useFetch';
+import { useFetch } from '../hooks/useFetch';
 import { Loading, Error } from '../components';
 
 const StyledSection = styled.section``;
