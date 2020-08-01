@@ -4,6 +4,7 @@ export const useFetch = (url, opts) => {
   const [response, setResponse] = useState(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
   useEffect(() => {
     setLoading(true);
     fetch(url, opts)
@@ -17,5 +18,6 @@ export const useFetch = (url, opts) => {
         setLoading(false);
       });
   }, [url]);
+
   return [response, loading, error];
 };

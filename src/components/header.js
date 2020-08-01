@@ -1,17 +1,34 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledHeader = styled.header`
+  position: fixed;
+  top: 0;
+  height: 7rem;
+  width: 120rem;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 1.5rem, auto;
-  height: 7rem;
+  margin: 0 auto;
+  background-color: white;
+
+  a {
+    &:link,
+    &:visited {
+      text-decoration: none;
+      color: red;
+    }
+  }
 `;
 
-const StyledLink = styled(Link)`
+const activeStyle = {
+  backgroundColor: 'blue',
+  color: 'white',
+};
+
+const StyledLink = styled(NavLink)`
   font-size: 2rem;
   color: 'red';
 `;
@@ -19,9 +36,13 @@ const StyledLink = styled(Link)`
 const Header = ({ routes }) => {
   return (
     <StyledHeader>
+      {/* TODO: Logo Logo */}
       {routes.map((route) => (
-        <StyledLink to={route.path}>{route.name}</StyledLink>
+        <StyledLink activeStyle={activeStyle} to={route.path}>
+          {route.name}
+        </StyledLink>
       ))}
+      {/* TODO: Profile Item */}
     </StyledHeader>
   );
 };

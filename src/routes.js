@@ -8,7 +8,7 @@ const Todos = lazy(() => import('./pages/todos'));
 const routes = [
   {
     name: 'Home',
-    path: '/',
+    path: '/home',
     component: Home,
     exact: true,
   },
@@ -16,19 +16,19 @@ const routes = [
     name: 'Posts',
     path: '/posts',
     component: Posts,
-    exact: true,
+    exact: false,
   },
   {
-    name: 'Albuns',
+    name: 'Albums',
     path: '/albums',
     component: Albums,
-    exact: true,
+    exact: false,
   },
   {
     name: 'Todos',
     path: '/todos',
     component: Todos,
-    exact: true,
+    exact: false,
   },
 ];
 
