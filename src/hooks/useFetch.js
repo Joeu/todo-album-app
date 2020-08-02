@@ -13,7 +13,7 @@ export const useFetch = (url, opts) => {
         setLoading(false);
         setResponse(data);
       })
-      .catch(() => {
+      .catch((error) => {
         setError(true);
         setLoading(false);
       });

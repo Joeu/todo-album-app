@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StyledIconBase } from '@styled-icons/styled-icon';
 import {
@@ -10,7 +10,7 @@ import {
   BusinessCard,
   InfoLarge,
 } from '@styled-icons/typicons';
-import { useFetch } from '../hooks/useFetch';
+import UserContext from '../context/usersContext';
 import { Card, Loading, Error } from '../components';
 import { mq, colors, typography } from '../styles';
 
@@ -78,7 +78,7 @@ const StyledCard = styled(Card)`
 
 const IconStyleWrapper = styled.div`
   margin: 1rem auto;
-  font-size: ${typography.size.large};
+  font-size: ${typography.size.xlarge};
   align-self: flex-start;
   text-align: center;
 
@@ -90,15 +90,14 @@ const IconStyleWrapper = styled.div`
 
   ${StyledIconBase} {
     color: ${colors.coralPink};
-    height: ${typography.size.xxlarge};
+    height: ${typography.size.xlarge};
     padding-right: 0.5rem;
   }
 `;
 
 const Home = () => {
-  const [response, loading, error] = useFetch(
-    'https://jsonplaceholder.typicode.com/users/'
-  );
+  const { response, loading, error } = useContext(UserContext);
+
   return (
     <StyledSection>
       {loading ? (
@@ -113,7 +112,7 @@ const Home = () => {
 };
 
 const renderUserCard = (user) => {
-  const { name, username, email, phone, website, address, company } = user;
+  const { name, username, email, phone, address, company } = user;
   const frontHeader = `${name} (${username})`;
   const frontData = [
     {
