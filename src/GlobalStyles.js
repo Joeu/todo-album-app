@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import { breakpoints } from './styles/mediaQueries';
-import { raginBeige, black } from './styles/colors';
+import { mq, colors } from './styles';
 
 const GlobalStyles = createGlobalStyle`
   html {
@@ -11,7 +10,7 @@ const GlobalStyles = createGlobalStyle`
     margin: 0 auto;
     padding: 0;
     box-sizing: border-box;
-    background-color: ${raginBeige};
+    background-color: ${colors.raginBeige};
     font-family: 'Poppins', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell',
     'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
     -webkit-font-smoothing: antialiased;
@@ -23,7 +22,7 @@ const GlobalStyles = createGlobalStyle`
     min-height: calc(100vh - 11rem);
   }
 
-  @media screen and (min-width: ${breakpoints.extraLarge}px) {
+  @media screen and (min-width: ${mq.breakpoints.extraLarge}px) {
     section, .header__content {
       width: 80%;
       margin: 0 auto;

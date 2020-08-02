@@ -3,7 +3,7 @@ import styled from 'styled-components';
 import Paginator from 'react-hooks-paginator';
 import { useFetch } from '../hooks/useFetch';
 import { Card, Loading, Error } from '../components';
-import { lightBlack } from '../styles/colors';
+import { colors } from '../styles';
 
 const StyledSection = styled.section`
   display: grid;
@@ -14,7 +14,7 @@ const Title = styled.h3`
 `;
 
 const Author = styled.span`
-  color: ${lightBlack};
+  color: ${colors.lightBlack};
 `;
 
 const Quote = styled.p`
@@ -65,7 +65,9 @@ const renderPostCard = (post) => {
   return (
     <Card key={post.id}>
       <Title>{post.title}</Title>
-      <Author style={{ color: lightBlack }}>author: {post.userId}</Author>
+      <Author style={{ color: colors.lightBlack }}>
+        author: {post.userId}
+      </Author>
       <Quote>{post.body}</Quote>
     </Card>
   );

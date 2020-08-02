@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { pinkLeaf, sleutheYellow, shadowBlue, white } from '../styles/colors';
+import { colors } from '../styles';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -10,7 +10,7 @@ const HeaderWrapper = styled.header`
   z-index: 100;
   width: 100%;
   box-shadow: 0 0.5rem 0 rgba(0, 0, 0, 0.07);
-  background-color: ${shadowBlue};
+  background-color: ${colors.shadowBlue};
 `;
 
 const HeaderContent = styled.div`
@@ -24,7 +24,7 @@ const HeaderContent = styled.div`
 const Logo = styled.div`
   flex: 1;
   height: inherit;
-  color: white;
+  color: ${colors.white};
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -35,12 +35,12 @@ const StyledNavLink = styled(NavLink)`
   padding: 0 1rem;
   height: 4rem;
   margin: 0 0.2rem;
-  background-color: ${pinkLeaf};
+  background-color: ${colors.pinkLeaf};
   transform: skewX(-9deg);
   transition: all 0.3s;
 
   &:hover {
-    background-color: ${sleutheYellow};
+    background-color: ${colors.sleutheYellow};
   }
 
   span {
@@ -49,7 +49,7 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const activeStyle = {
-  backgroundColor: white,
+  backgroundColor: colors.white,
 };
 
 const Header = ({ routes }) => {

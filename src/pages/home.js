@@ -1,21 +1,31 @@
 import React from 'react';
 import styled from 'styled-components';
+import { StyledIconBase } from '@styled-icons/styled-icon';
+import {
+  Globe,
+  Phone,
+  Mail,
+  UserOutline,
+  Briefcase,
+  BusinessCard,
+  InfoLarge,
+} from '@styled-icons/typicons';
 import { useFetch } from '../hooks/useFetch';
 import { Card, Loading, Error } from '../components';
-import { breakpoints } from '../styles/mediaQueries';
-import { sleutheYellow } from '../styles/colors';
+import { mq, colors, typography } from '../styles';
 
 const StyledSection = styled.section`
   display: grid;
   grid-gap: 1.5rem;
 
-  @media screen and (min-width: ${breakpoints.small}px) {
+  @media screen and (min-width: ${mq.breakpoints.small}px) {
     grid-template-columns: repeat(2, 1fr);
     grid-gap: 2rem;
   }
 `;
 
 const CardWrapper = styled.div`
+  perspective: 150rem;
   display: grid;
 
   .side {
@@ -27,7 +37,6 @@ const CardWrapper = styled.div`
 
   .card--back {
     transform: rotateY(-180deg);
-    background-color: ${sleutheYellow};
   }
 
   &:hover .card--front {
@@ -37,9 +46,54 @@ const CardWrapper = styled.div`
   &:hover .card--back {
     transform: rotateY(0);
   }
+
+  @media screen and (max-width: ${mq.breakpoints.extraLarge}px) {
+    &:active .card--front {
+      transform: rotateY(180deg);
+    }
+
+    &:active .card--back {
+      transform: rotateY(0);
+    }
+  }
 `;
 
-const StyledCard = styled(Card)``;
+const StyledCard = styled(Card)`
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+  .card_major-icon {
+    width: 20%;
+  }
+
+  .card_info {
+    flex: 1;
+  }
+
+  .card_header {
+    font-size: ${typography.heading.four};
+  }
+`;
+
+const IconStyleWrapper = styled.div`
+  margin: 1rem auto;
+  font-size: ${typography.size.large};
+  align-self: flex-start;
+  text-align: center;
+
+  .row-info {
+    display: flex;
+    aling-items: center;
+    justify-content: flex-start;
+  }
+
+  ${StyledIconBase} {
+    color: ${colors.coralPink};
+    height: ${typography.size.xxlarge};
+    padding-right: 0.5rem;
+  }
+`;
 
 const Home = () => {
   const [response, loading, error] = useFetch(
@@ -58,44 +112,65 @@ const Home = () => {
   );
 };
 
-/*
-
-{
-"id": 1,
-"name": "Leanne Graham",
-"username": "Bret",
-"email": "Sincere@april.biz",
-"address": {
-"street": "Kulas Light",
-"suite": "Apt. 556",
-"city": "Gwenborough",
-"zipcode": "92998-3874",
-"geo": {
-"lat": "-37.3159",
-"lng": "81.1496"
-}
-},
-"phone": "1-770-736-8031 x56442",
-"website": "hildegard.org",
-"company": {
-"name": "Romaguera-Crona",
-"catchPhrase": "Multi-layered client-server neural-net",
-"bs": "harness real-time e-markets"
-}
-},
-*/
 const renderUserCard = (user) => {
+  const { name, username, email, phone, website, address, company } = user;
+  const frontHeader = `${name} (${username})`;
+  const frontData = [
+    {
+      icon: Mail,
+      text: email,
+    },
+    {
+      icon: Phone,
+      text: phone,
+    },
+    {
+      icon: Globe,
+      text: address.city,
+    },
+  ];
+
+  const backData = [
+    {
+      icon: InfoLarge,
+      text: company.catchPhrase,
+    },
+    {
+      icon: BusinessCard,
+      text: company.bs,
+    },
+  ];
+
+  const renderInfoRow = (SvgIcon, text) => (
+    <div className='row-info'>
+      <SvgIcon />
+      <div>{text}</div>
+    </div>
+  );
+
+  const renderCardSide = (MajorIcon, header, dataArray) => {
+    return (
+      <>
+        <div className='card_major-icon'>
+          <MajorIcon size={40} />
+        </div>
+        <div className='card_info'>
+          <div className='card_header'>{header}</div>
+          <IconStyleWrapper>
+            {dataArray.map((info) => renderInfoRow(info.icon, info.text))}
+          </IconStyleWrapper>
+        </div>
+      </>
+    );
+  };
+
   return (
     <CardWrapper>
       <StyledCard className='side card--front'>
-        <div>{user.name}</div>
-        <div>{user.userName}</div>
-        <div>{user.email}</div>
+        {renderCardSide(UserOutline, frontHeader, frontData)}
       </StyledCard>
       <StyledCard className='side card--back'>
-        <div>{user.phone}</div>
-        <div>{user.website}</div>
-        <div>{user.address.city}</div>
+        {renderCardSide(Briefcase, company.name, backData)}
       </StyledCard>
     </CardWrapper>
   );
