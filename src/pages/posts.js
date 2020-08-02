@@ -1,17 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { useParams, useHistory, useLocation } from 'react-router-dom';
 import Paginator from 'react-hooks-paginator';
 import { useFetch } from '../hooks/useFetch';
-import { Loading, Error } from '../components';
+import { Card, Loading, Error } from '../components';
+import { lightBlack } from '../styles/colors';
 
-const StyledSection = styled.section``;
+const StyledSection = styled.section`
+  display: grid;
+`;
 
-const PostItem = styled.div`
-  border: 0.1rem solid black;
-  border-radius: 0.5rem;
-  margin-bottom: 0.2rem;
-  padding: 1rem;
+const Title = styled.h3`
+  margin: 0 auto;
+`;
+
+const Author = styled.span`
+  color: ${lightBlack};
+`;
+
+const Quote = styled.p`
+  font-style: italic;
 `;
 
 const Posts = () => {
@@ -20,16 +27,11 @@ const Posts = () => {
   const [offset, setOffset] = useState(0);
   const [currentPage, setCurrentPage] = useState(1);
 
-  const params = useParams();
-  let history = useHistory();
-
   const [response, loading, error] = useFetch(
     'https://jsonplaceholder.typicode.com/posts/'
   );
 
   useEffect(() => {
-    console.log(params);
-    history.push(currentPage);
     setCurrentPosts(response?.slice(offset, offset + pageLimit));
     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
   }, [offset, response]);
@@ -42,7 +44,7 @@ const Posts = () => {
         <Error />
       ) : (
         <>
-          {currentPosts?.map((post) => renderPost(post))}
+          {currentPosts?.map((post) => renderPostCard(post))}
           {response && (
             <Paginator
               totalRecords={response.length}
@@ -59,12 +61,14 @@ const Posts = () => {
   );
 };
 
-const renderPost = (post) => (
-  <PostItem key={post.id}>
-    <h3>{post.title}</h3>
-    <h5>{post.userId}</h5>
-    <p>{post.body}</p>
-  </PostItem>
-);
+const renderPostCard = (post) => {
+  return (
+    <Card key={post.id}>
+      <Title>{post.title}</Title>
+      <Author style={{ color: lightBlack }}>author: {post.userId}</Author>
+      <Quote>{post.body}</Quote>
+    </Card>
+  );
+};
 
 export default Posts;

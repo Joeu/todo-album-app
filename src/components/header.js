@@ -36,10 +36,15 @@ const StyledNavLink = styled(NavLink)`
   height: 4rem;
   margin: 0 0.2rem;
   background-color: ${pinkLeaf};
+  transform: skewX(-9deg);
   transition: all 0.3s;
 
   &:hover {
     background-color: ${sleutheYellow};
+  }
+
+  span {
+    transform: skewX(9deg);
   }
 `;
 
@@ -62,7 +67,7 @@ const Header = ({ routes }) => {
         to={route.path}
         exact={route.exact}
       >
-        {route.name}
+        <span>{route.name}</span>
       </StyledNavLink>
     ));
 
