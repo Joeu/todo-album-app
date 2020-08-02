@@ -1,53 +1,78 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
+import { pinkLeaf, sleutheYellow, shadowBlue, white } from '../styles/colors';
 
-const StyledHeader = styled.header`
+const HeaderWrapper = styled.header`
   position: fixed;
   top: 0;
   height: 7rem;
-  width: 120rem;
+  z-index: 100;
+  width: 100%;
+  box-shadow: 0 0.5rem 0 rgba(0, 0, 0, 0.07);
+  background-color: ${shadowBlue};
+`;
+
+const HeaderContent = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  margin: 0 auto;
-  background-color: white;
+  height: inherit;
+`;
 
-  a {
-    &:link,
-    &:visited {
-      text-decoration: none;
-      color: red;
-    }
+const Logo = styled.div`
+  flex: 1;
+  height: inherit;
+  color: white;
+`;
+
+const StyledNavLink = styled(NavLink)`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  padding: 0 1rem;
+  height: 4rem;
+  margin: 0 0.2rem;
+  background-color: ${pinkLeaf};
+  transition: all 0.3s;
+
+  &:hover {
+    background-color: ${sleutheYellow};
   }
 `;
 
 const activeStyle = {
-  backgroundColor: 'blue',
-  color: 'white',
+  backgroundColor: white,
 };
 
-const StyledLink = styled(NavLink)`
-  font-size: 2rem;
-  color: 'red';
-`;
-
 const Header = ({ routes }) => {
+  const renderLogo = () => (
+    <Logo>
+      <h1>Logo</h1>
+    </Logo>
+  );
+
+  const renderMenu = () =>
+    routes.map((route) => (
+      <StyledNavLink
+        key={route.name}
+        activeStyle={activeStyle}
+        to={route.path}
+        exact={route.exact}
+      >
+        {route.name}
+      </StyledNavLink>
+    ));
+
   return (
-    <StyledHeader>
-      {/* TODO: Logo Logo */}
-      {routes.map((route) => (
-        <StyledLink
-          activeStyle={activeStyle}
-          to={route.path}
-          exact={route.exact}
-        >
-          {route.name}
-        </StyledLink>
-      ))}
-      {/* TODO: Profile Item */}
-    </StyledHeader>
+    <HeaderWrapper>
+      <HeaderContent className='header__content'>
+        {renderLogo()}
+        {renderMenu()}
+      </HeaderContent>
+    </HeaderWrapper>
   );
 };
 

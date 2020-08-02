@@ -4,7 +4,7 @@ import Loading from './loading';
 import styled from 'styled-components';
 
 const StyledMain = styled.main`
-  margin-top: 7rem;
+  margin-top: 8rem;
 `;
 
 function Main({ routes }) {

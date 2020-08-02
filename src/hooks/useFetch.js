@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
 export const useFetch = (url, opts) => {
   const [response, setResponse] = useState(null);
@@ -8,7 +8,7 @@ export const useFetch = (url, opts) => {
   useEffect(() => {
     setLoading(true);
     fetch(url, opts)
-      .then((response) => response.json())
+      .then(checkError)
       .then((data) => {
         setLoading(false);
         setResponse(data);
@@ -17,7 +17,13 @@ export const useFetch = (url, opts) => {
         setError(true);
         setLoading(false);
       });
-  }, [url]);
+  }, [url, opts]);
+
+  const checkError = (response) => {
+    if (response.status >= 200 && response.status <= 299)
+      return response.json();
+    else throw Error(response.statsText);
+  };
 
   return [response, loading, error];
 };
