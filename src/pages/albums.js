@@ -1,7 +1,8 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import styled from 'styled-components';
 import UsercContext from '../context/usersContext';
-import { Card } from '../components';
+import { useFetch } from '../hooks/useFetch';
+import { Card, Loading, Error } from '../components';
 import { mq, colors, typography } from '../styles';
 
 const StyledSection = styled.section`
@@ -49,23 +50,19 @@ const PhotoCard = styled(Card)`
   }
 `;
 
+const BASE_URL = 'https://jsonplaceholder.typicode.com/photos?albumId=';
+
 const Albums = () => {
   const users = useContext(UsercContext).response;
   const [selectedUserId, setSelectedUserId] = useState(1);
-  const [gallery, setGallery] = useState([]);
+  const [currentUserUrl, setCurrentUserUrl] = useState(
+    `${BASE_URL}${selectedUserId}`
+  );
 
-  useEffect(() => {
-    const fetchPhotos = () => {
-      fetch(
-        `https://jsonplaceholder.typicode.com/photos?albumId=${selectedUserId}`
-      )
-        .then((res) => res.json())
-        .then((data) => {
-          setGallery(data);
-        });
-    };
-    fetchPhotos();
-  }, [selectedUserId]);
+  const handleUserClick = (userId) => {
+    setSelectedUserId(userId);
+    setCurrentUserUrl(`${BASE_URL}${userId}`);
+  };
 
   const renderLinks = () => {
     return (
@@ -73,7 +70,7 @@ const Albums = () => {
         {users?.map((user) => (
           <StyledCardButton
             key={user.id}
-            onClick={() => setSelectedUserId(user.id)}
+            onClick={() => handleUserClick(user.id)}
             selected={user.id === selectedUserId}
           >
             {user.name}
@@ -83,13 +80,16 @@ const Albums = () => {
     );
   };
 
-  const renderGallery = () => {
-    return (
-      <StyledGallery>
-        {gallery?.map((photo) => renderPhotoCard(photo))}
-      </StyledGallery>
-    );
-  };
+  return (
+    <StyledSection>
+      {renderLinks()}
+      <Gallery url={currentUserUrl} />
+    </StyledSection>
+  );
+};
+
+const Gallery = ({ url }) => {
+  const [response, loading, error] = useFetch(url);
 
   const renderPhotoCard = (album) => {
     const { title, thumbnailUrl, id } = album;
@@ -102,10 +102,15 @@ const Albums = () => {
   };
 
   return (
-    <StyledSection>
-      {renderLinks()}
-      {renderGallery()}
-    </StyledSection>
+    <StyledGallery>
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <Error />
+      ) : (
+        <>{response?.map((photo) => renderPhotoCard(photo))}</>
+      )}
+    </StyledGallery>
   );
 };
 
