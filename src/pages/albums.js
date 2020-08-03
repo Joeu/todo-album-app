@@ -1,8 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import styled from 'styled-components';
 import UsercContext from '../context/usersContext';
-import { useFetch } from '../hooks/useFetch';
-import { Card, Loading, Error } from '../components';
+import { Card } from '../components';
 import { mq, colors, typography } from '../styles';
 
 const StyledSection = styled.section`
@@ -95,7 +94,7 @@ const Albums = () => {
     const { title, thumbnailUrl, id } = album;
     return (
       <PhotoCard key={id}>
-        <img src={thumbnailUrl} />
+        <img src={thumbnailUrl} alt={id} />
         <span>{title}</span>
       </PhotoCard>
     );
