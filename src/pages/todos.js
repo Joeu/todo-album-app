@@ -1,18 +1,26 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { useFetch } from '../hooks/useFetch';
-import { Loading, Error } from '../components';
+import { Card, Loading, Error } from '../components';
+import { colors } from '../styles';
 
-const StyledSection = styled.section``;
+const StyledSection = styled.section`
+  display: grid;
+`;
+
 const TodoItem = styled.div`
   margin-bottom: 0.2rem;
 
   ${({ completed }) =>
     completed &&
     `
-      background: lightgray;
-      color: gray;
+      text-decoration: line-through;
+      color: ${colors.gray};
     `}
+
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const Todos = () => {
@@ -27,16 +35,22 @@ const Todos = () => {
       ) : hasError ? (
         <Error />
       ) : (
-        response?.map((todo) => renderTodo(todo))
+        response?.map((todo) => <Todo key={todo.id} todo={todo} />)
       )}
     </StyledSection>
   );
 };
 
-const renderTodo = (todo) => (
-  <TodoItem completed={todo.completed}>
-    <h3>{todo.title}</h3>
-  </TodoItem>
-);
+const Todo = ({ todo }) => {
+  const [completed, setCompleted] = useState(todo.completed);
+
+  const toggleTodo = () => setCompleted(!completed);
+
+  return (
+    <TodoItem key={todo.id} completed={completed} onClick={toggleTodo}>
+      <Card>{todo.title}</Card>
+    </TodoItem>
+  );
+};
 
 export default Todos;

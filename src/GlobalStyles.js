@@ -4,6 +4,10 @@ import { mq, colors } from './styles';
 const GlobalStyles = createGlobalStyle`
   html {
     font-size: 62.5%;
+    
+    @media screen and (max-width: ${mq.breakpoints.small}px) {
+      font-size: 55%;
+    }
   }
 
   body {
@@ -20,10 +24,11 @@ const GlobalStyles = createGlobalStyle`
 
   section {
     min-height: calc(100vh - 11rem);
+    justify-content: center;
   }
 
   @media screen and (min-width: ${mq.breakpoints.extraLarge}px) {
-    section, .header__content {
+    section, .header__content, .footer__content {
       width: 80%;
       margin: 0 auto;
     }

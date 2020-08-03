@@ -10,7 +10,7 @@ import {
   BusinessCard,
   InfoLarge,
 } from '@styled-icons/typicons';
-import UserContext from '../context/usersContext';
+import UsercContext from '../context/usersContext';
 import { Card, Loading, Error } from '../components';
 import { mq, colors, typography } from '../styles';
 
@@ -19,7 +19,7 @@ const StyledSection = styled.section`
   grid-gap: 1.5rem;
 
   @media screen and (min-width: ${mq.breakpoints.small}px) {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(auto-fill, 45rem);
     grid-gap: 2rem;
   }
 `;
@@ -63,15 +63,15 @@ const StyledCard = styled(Card)`
   flex-direction: row;
   justify-content: space-between;
 
-  .card_major-icon {
+  .card__major-icon {
     width: 20%;
   }
 
-  .card_info {
+  .card__info {
     flex: 1;
   }
 
-  .card_header {
+  .card__header {
     font-size: ${typography.heading.four};
   }
 `;
@@ -96,7 +96,7 @@ const IconStyleWrapper = styled.div`
 `;
 
 const Home = () => {
-  const { response, loading, error } = useContext(UserContext);
+  const { response, loading, error } = useContext(UsercContext);
 
   return (
     <StyledSection>
@@ -141,7 +141,7 @@ const renderUserCard = (user) => {
   ];
 
   const renderInfoRow = (SvgIcon, text) => (
-    <div className='row-info'>
+    <div key={text} className='row-info'>
       <SvgIcon />
       <div>{text}</div>
     </div>
@@ -150,11 +150,11 @@ const renderUserCard = (user) => {
   const renderCardSide = (MajorIcon, header, dataArray) => {
     return (
       <>
-        <div className='card_major-icon'>
+        <div className='card__major-icon'>
           <MajorIcon size={40} />
         </div>
-        <div className='card_info'>
-          <div className='card_header'>{header}</div>
+        <div className='card__info'>
+          <div className='card__header'>{header}</div>
           <IconStyleWrapper>
             {dataArray.map((info) => renderInfoRow(info.icon, info.text))}
           </IconStyleWrapper>
@@ -164,7 +164,7 @@ const renderUserCard = (user) => {
   };
 
   return (
-    <CardWrapper>
+    <CardWrapper key={user.id}>
       <StyledCard className='side card--front'>
         {renderCardSide(UserOutline, frontHeader, frontData)}
       </StyledCard>

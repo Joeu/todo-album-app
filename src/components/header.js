@@ -1,7 +1,7 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import styled from 'styled-components';
-import { colors } from '../styles';
+import { mq, colors, typography } from '../styles';
 
 const HeaderWrapper = styled.header`
   position: fixed;
@@ -19,19 +19,28 @@ const HeaderContent = styled.div`
   justify-content: space-between;
   align-items: center;
   height: inherit;
+
+  @media screen and (max-width: ${mq.breakpoints.small}px) {
+    flex-sirection: column;
+    margin: 0 1rem;
+  }
 `;
 
 const Logo = styled.div`
   flex: 1;
   height: inherit;
   color: ${colors.white};
+
+  @media screen and (max-width: ${mq.breakpoints.small}px) {
+    display: none;
+  }
 `;
 
 const StyledNavLink = styled(NavLink)`
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 2rem;
+  font-size: ${typography.size.xxlarge};
   padding: 0 1rem;
   height: 4rem;
   margin: 0 0.2rem;

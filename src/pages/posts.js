@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import styled from 'styled-components';
 import Paginator from 'react-hooks-paginator';
 import { useFetch } from '../hooks/useFetch';
+import UsercContext from '../context/usersContext';
 import { Card, Loading, Error } from '../components';
 import { colors } from '../styles';
 
@@ -31,6 +32,8 @@ const Posts = () => {
     'https://jsonplaceholder.typicode.com/posts/'
   );
 
+  const users = useContext(UsercContext).response;
+
   useEffect(() => {
     setCurrentPosts(response?.slice(offset, offset + pageLimit));
     window.scroll({ top: 0, left: 0, behavior: 'smooth' });
@@ -44,7 +47,7 @@ const Posts = () => {
         <Error />
       ) : (
         <>
-          {currentPosts?.map((post) => renderPostCard(post))}
+          {currentPosts?.map((post) => renderPostCard(post, users))}
           {response && (
             <Paginator
               totalRecords={response.length}
@@ -61,12 +64,13 @@ const Posts = () => {
   );
 };
 
-const renderPostCard = (post) => {
+const renderPostCard = (post, users) => {
+  const author = users?.filter((user) => user.id === post.userId)[0];
   return (
     <Card key={post.id}>
       <Title>{post.title}</Title>
       <Author style={{ color: colors.lightBlack }}>
-        author: {post.userId}
+        author: {author?.name}
       </Author>
       <Quote>{post.body}</Quote>
     </Card>

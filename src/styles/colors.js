@@ -10,6 +10,8 @@ const colors = {
   white: '#ffffff',
   lightBlack: 'rgba(0, 0, 0, 0.6)',
   lighterBlackBorder: 'rgba(0, 0, 0, 0.2)',
+  gray: '#808080',
+  ligthGray: '#D3D3D3',
 };
 
 export default colors;
