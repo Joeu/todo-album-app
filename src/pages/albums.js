@@ -17,25 +17,6 @@ const StyledSection = styled.section`
   }
 `;
 
-const StyledGallery = styled.div`
-  display: grid;
-  grid-row: 2 / -11;
-  grid-column: 2 / 3;
-
-  grid-template-columns: repeat(auto-fill, 20rem);
-  justify-content: center;
-`;
-
-const PhotoCard = styled(Card)`
-  display: flex;
-  flex-direction: column;
-
-  span {
-    padding-top: 0.5rem;
-    font-size: ${typography.xlarge};
-  }
-`;
-
 const StyledCardButton = styled(Card)`
   transition: all 0.2s;
 
@@ -49,6 +30,22 @@ const StyledCardButton = styled(Card)`
   &:hover {
     cursor: pointer;
     background: ${colors.sleutheYellow};
+  }
+`;
+
+const StyledGallery = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, 20rem);
+  justify-content: center;
+`;
+
+const PhotoCard = styled(Card)`
+  display: flex;
+  flex-direction: column;
+
+  span {
+    padding-top: 0.5rem;
+    font-size: ${typography.xlarge};
   }
 `;
 
@@ -70,15 +67,19 @@ const Albums = () => {
     fetchPhotos();
   }, [selectedUserId]);
 
-  const renderLinks = (user) => {
+  const renderLinks = () => {
     return (
-      <StyledCardButton
-        key={user.id}
-        onClick={() => setSelectedUserId(user.id)}
-        selected={user.id === selectedUserId}
-      >
-        {user.name}
-      </StyledCardButton>
+      <div>
+        {users?.map((user) => (
+          <StyledCardButton
+            key={user.id}
+            onClick={() => setSelectedUserId(user.id)}
+            selected={user.id === selectedUserId}
+          >
+            {user.name}
+          </StyledCardButton>
+        ))}
+      </div>
     );
   };
 
@@ -102,7 +103,7 @@ const Albums = () => {
 
   return (
     <StyledSection>
-      {users?.map((user) => renderLinks(user))}
+      {renderLinks()}
       {renderGallery()}
     </StyledSection>
   );
